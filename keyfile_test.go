@@ -24,6 +24,7 @@ func TestKeyFile(t *testing.T) {
 	if runtime.GOOS != "windows" && fi.Mode().Perm() != 0o600 {
 		t.Fatalf("mode %v", fi.Mode().Perm())
 	}
+	onlyKeyFile(t, filepath.Dir(file))
 	// Opening again reuses the key.
 	b2, err := OpenKeyFile(file)
 	if err != nil {
@@ -57,27 +58,50 @@ func TestKeyFileMissingDirectory(t *testing.T) {
 	}
 }
 
-// Several processes (here goroutines) starting at once all get the same key.
+// Several processes (here goroutines) starting at once all get the same
+// key, and none sees a partly written file. Repeated, because the window
+// is small.
 func TestKeyFileConcurrentCreate(t *testing.T) {
-	file := filepath.Join(t.TempDir(), KeyFile)
-	const n = 16
-	keys := make([][]byte, n)
-	errs := make([]error, n)
-	var wg sync.WaitGroup
-	for i := range n {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			keys[i], errs[i] = LoadOrCreateKey(file)
-		}()
+	for range 50 {
+		dir := t.TempDir()
+		file := filepath.Join(dir, KeyFile)
+		const n = 16
+		keys := make([][]byte, n)
+		errs := make([]error, n)
+		var wg sync.WaitGroup
+		for i := range n {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				keys[i], errs[i] = LoadOrCreateKey(file)
+			}()
+		}
+		wg.Wait()
+		for i := range n {
+			if errs[i] != nil {
+				t.Fatalf("goroutine %d: %v", i, errs[i])
+			}
+			if string(keys[i]) != string(keys[0]) {
+				t.Fatalf("goroutine %d got another key", i)
+			}
+		}
+		onlyKeyFile(t, dir)
 	}
-	wg.Wait()
-	for i := range n {
-		if errs[i] != nil {
-			t.Fatalf("goroutine %d: %v", i, errs[i])
+}
+
+// onlyKeyFile fails if dir holds anything besides the key file, such as a
+// leftover temporary file with a key in it.
+func onlyKeyFile(t *testing.T, dir string) {
+	t.Helper()
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 1 || entries[0].Name() != KeyFile {
+		var names []string
+		for _, e := range entries {
+			names = append(names, e.Name())
 		}
-		if string(keys[i]) != string(keys[0]) {
-			t.Fatalf("goroutine %d got another key", i)
-		}
+		t.Fatalf("directory holds %v, want only %s", names, KeyFile)
 	}
 }
