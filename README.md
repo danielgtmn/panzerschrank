@@ -63,7 +63,9 @@ plain, err := box.Open(append(nonce, ct...), row.Name)
 go get github.com/danielgtmn/panzerschrank@latest
 ```
 
-Documentation with examples: [pkg.go.dev](https://pkg.go.dev/github.com/danielgtmn/panzerschrank).
+## Documentation
+
+The [wiki](https://github.com/danielgtmn/panzerschrank/wiki): getting started, keys and backups, the format, security. The API with examples is on [pkg.go.dev](https://pkg.go.dev/github.com/danielgtmn/panzerschrank).
 
 ## Development
 

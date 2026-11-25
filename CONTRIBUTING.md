@@ -21,7 +21,7 @@ make lint
 
 1. Fork, then branch from `main`.
 2. Read [AGENTS.md](AGENTS.md): the rules that are easy to break (the format never changes, no secret material in errors, standard library only).
-3. Add tests with the change, and update the README and package docs in the same pull request.
+3. Add tests with the change, and update the documentation in `wiki/` (and the README and package docs, where they cover the same thing) in the same pull request.
 4. Run `make test` and `make lint`, and `make fuzz` for changes to opening data.
 
 ## Pull requests

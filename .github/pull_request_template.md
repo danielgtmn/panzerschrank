@@ -9,6 +9,6 @@ Closes #
 - [ ] `make test` (and `make fuzz` for changes to `Open`)
 - [ ] Data sealed by the previous release still opens (`TestKnownVector` unchanged)
 - [ ] Tried in an app (gpanel or static-hosting) for changes to the API
-- [ ] README and package docs updated where they describe this
+- [ ] Wiki, README and package docs updated where they describe this
 
 ## Not tested / open questions

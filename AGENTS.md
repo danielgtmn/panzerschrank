@@ -1,8 +1,8 @@
 # AGENTS.md
 
 Guidance for AI coding agents (and people) working on panzerschrank. User
-documentation is the [README](README.md) and the package docs (shown on
-pkg.go.dev).
+documentation lives in [`wiki/`](wiki/) and is copied to the GitHub wiki by
+a workflow: edit it there. The package docs are shown on pkg.go.dev.
 
 ## What this is
 
@@ -19,6 +19,7 @@ tested once.
 panzerschrank.go       Box: New, NewFromBase64, Seal/Open, SealString/OpenString, GenerateKey
 keyfile.go             OpenKeyFile, LoadOrCreateKey: the key in a file, created on first start
 *_test.go              tests, the fixed test vector, FuzzOpen, examples (shown on pkg.go.dev)
+wiki/                  documentation (synced to the GitHub wiki)
 scripts/               commit-type.sh (Conventional Commits check) and its test
 ```
 
@@ -64,6 +65,8 @@ tested end to end, say so explicitly.
 - **Conventional Commits** for every commit on `main` and every PR title
   (`feat:`, `fix:`, `perf:`, `docs:`, `chore:`, `ci:`, `refactor:`,
   `test:`, `build:`, optional scope and `!`). The `commits` check enforces it.
+- Update the wiki (and README where it covers the same) in the same PR as
+  the behaviour it describes.
 - Merging `main` into `release` tags a new version computed from the
   commits (`fix:` patch, `feat:` minor, `!` major) and publishes a GitHub
   release. Apps then `go get github.com/danielgtmn/panzerschrank@vX.Y.Z`.
