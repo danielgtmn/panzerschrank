@@ -67,6 +67,9 @@ tested end to end, say so explicitly.
   `test:`, `build:`, optional scope and `!`). The `commits` check enforces it.
 - Update the wiki (and README where it covers the same) in the same PR as
   the behaviour it describes.
-- Merging `main` into `release` tags a new version computed from the
-  commits (`fix:` patch, `feat:` minor, `!` major) and publishes a GitHub
-  release. Apps then `go get github.com/danielgtmn/panzerschrank@vX.Y.Z`.
+- **Releases are made by hand from `main`:** run the Release workflow
+  (`gh workflow run release.yml --ref main`). It tags the next version
+  computed from the commits (`fix:` patch, `feat:` minor, `!` major) and
+  publishes a GitHub release. Apps then `go get github.com/danielgtmn/panzerschrank@vX.Y.Z`.
+  There is no release branch. A pushed version is permanent (the Go module
+  proxy keeps it), so release on purpose, not on every merge.

@@ -24,7 +24,9 @@ CI runs the tests, 30 seconds of fuzzing, and checks that the module has no depe
 
 ## Releases
 
-Pull requests go into `main` with a merge commit; titles and commits follow Conventional Commits. Merging `main` into `release` tags the next version from the commits (`fix:` patch, `feat:` minor, `!` major) and publishes a GitHub release. Apps then use `go get github.com/danielgtmn/panzerschrank@vX.Y.Z`.
+Pull requests go into `main` with a merge commit; titles and commits follow Conventional Commits. A release is made by hand from `main`: in the Actions tab, run **Release** (or `gh workflow run release.yml --ref main`). It tags the next version from the commits since the last tag (`fix:` patch, `feat:` minor, `!` major) on `main`'s head and publishes a GitHub release; without such commits it releases nothing. Apps then use `go get github.com/danielgtmn/panzerschrank@vX.Y.Z`, or `@main` for the latest commit.
+
+A Go version is just a git tag, and the Go module proxy keeps every version it has seen for good: a published version cannot be changed or deleted, only marked as retracted in `go.mod`. So release on purpose, when `main` is in a state worth keeping.
 
 ## Conventions
 
