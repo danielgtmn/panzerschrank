@@ -22,11 +22,13 @@ keyfile.go             OpenKeyFile, LoadOrCreateKey: the key in a file, created 
 wiki/                  documentation (synced to the GitHub wiki)
 scripts/               commit-type.sh (Conventional Commits check) and its test
 .okf/                  knowledge bundle (Open Knowledge Format): concepts, decisions, process
+.claude/skills/        okf, okf-validate, okf-visualize: agent skills for .okf/ (copied, MIT)
 ```
 
 Keep `.okf/` in step with the code: when a change touches what a concept
 describes, update that concept (`generated`), its `index.md` and `log.md`
-in the same PR.
+in the same PR, and check it with
+`uv run .claude/skills/okf-validate/scripts/okf_validate.py .okf --strict`.
 
 ## Rules that are easy to break
 
