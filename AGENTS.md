@@ -21,7 +21,12 @@ keyfile.go             OpenKeyFile, LoadOrCreateKey: the key in a file, created 
 *_test.go              tests, the fixed test vector, FuzzOpen, examples (shown on pkg.go.dev)
 wiki/                  documentation (synced to the GitHub wiki)
 scripts/               commit-type.sh (Conventional Commits check) and its test
+.okf/                  knowledge bundle (Open Knowledge Format): concepts, decisions, process
 ```
+
+Keep `.okf/` in step with the code: when a change touches what a concept
+describes, update that concept (`generated`), its `index.md` and `log.md`
+in the same PR.
 
 ## Rules that are easy to break
 
